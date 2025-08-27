@@ -1,0 +1,42 @@
+{
+  "name": "cyborg-profile-extension",
+  "main": "./out/extension.js",
+  "displayName": "Cyborg Profile Extension",
+  "description": "Extension for syntax highlighting of Cyborg Profile files used by the MMO7 mouse",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.102.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "cyborg-profile",
+        "aliases": ["Cyborg Profile","cyborg-profile"],
+        "extensions": [".pr0"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cyborg-profile",
+        "scopeName": "source.cyborg",
+        "path": "./syntaxes/cyborg-profile.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/vscode": "^1.103.0",
+    "typescript": "^5.9.2",
+    "vscode": "^1.1.37"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc -watch",
+    "prepublish": "npm run compile",
+    "vscode:prepublish": "npm run compile"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Cyborg Profile",
+  "scopeName": "source.cyborg",
+  "patterns": [
+    {
+      "include": "#sections"
+    },
+    {
+      "include": "#attributes"
+    },
+    {
+      "include": "#values"
+    }
+  ],
+  "repository": {
+    "sections": {
+      "patterns": [
+        {
+          "match": "\\[(profile|controllers|controls|shifts|commands|actioncommand|actionblock|buttoncombo|selectionset|assignments|bands)\\b",
+          "name": "keyword.control.cyborg"
+        },
+        {
+          "match": "\\[(controller|member|mousepointer|mouseaxis|button|slider|shift|shiftcommand|action|band)\\b",
+          "name": "keyword.control.cyborg"
+        }
+      ]
+    },
+    "attributes": {
+      "patterns": [
+        {
+          "match": "\\b(name|group|shortname|role|latchable|fallback|envelope|sensitivity|command|device|usage|page|value|type|repeat)\\b=",
+          "name": "entity.other.attribute-name.cyborg"
+        }
+      ]
+    },
+    "values": {
+      "patterns": [
+        {
+          "match": "\\b0x[0-9a-fA-F]+\\b",
+          "name": "constant.numeric.hex.cyborg"
+        },
+        {
+          "match": "\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\b",
+          "name": "constant.numeric.guid.cyborg markup.underline"
+        },
+        {
+          "begin": "'",
+          "end": "'",
+          "name": "string.quoted.single.cyborg"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.cyborg"
+        },
+        {
+          "match": "\\b([a-zA-Z][a-zA-Z0-9]*)\\b(?==)",
+          "name": "entity.other.attribute-name.cyborg"
+        },
+        {
+          "match": "(?<==)([^\\s\\[\\]'=]+)(?=\\s|$|\\])",
+          "name": "support.property-value"
+        }
+      ]
+    }
+  }
+}
