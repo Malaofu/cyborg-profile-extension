@@ -5,7 +5,7 @@
   "description": "Extension for syntax highlighting of Cyborg Profile files used by the MMO7 mouse",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.102.0"
+    "vscode": "^1.103.0"
   },
   "categories": [
     "Programming Languages"
