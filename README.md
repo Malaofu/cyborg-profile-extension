@@ -18,10 +18,8 @@ None yet
 
 ## Known Issues
 
-Keyboard and flightstick buttons are not mapped correctly
-
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
 
 Pre-release
