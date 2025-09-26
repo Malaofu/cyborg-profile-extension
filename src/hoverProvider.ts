@@ -1,13 +1,39 @@
 import * as vscode from 'vscode';
-import { axisMap, buttonMap, hidPageMap, hidUsageMap, hidValueMap } from './valueMaps';
+import { controllerButtonMaps, hidPageMap, hidUsageMap, hidValueMap } from './valueMaps';
 
 export class HoverProvider implements vscode.HoverProvider {
     provideHover(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.Hover> {
         const range = document.getWordRangeAtPosition(position);
         const word = document.getText(range);
 
+        // Handle attribute names
+        if (word === 'usage') {
+            return new vscode.Hover('`usage` defines the keyboard input (HID usage code).');
+        }
+        if (word === 'page') {
+            return new vscode.Hover('`page` defines the HID usage page.');
+        }
+        if (word === 'value') {
+            return new vscode.Hover('`value` indicates key state: `0x00000001` (pressed), `0x00000000` (released).');
+        }
+        if (word === 'button' || word === 'buttonhid' || word === 'mouseaxis') {
+            return new vscode.Hover('Button or mouse axis code.');
+        }
+
+        // Only proceed for hex values
         if (!range || !word || !/^0x[0-9a-fA-F]+$/.test(word)) {
             return null;
+        }
+
+        // Find the current controller by scanning upward from current line
+        let currentController = null;
+        for (let i = position.line; i >= 0; i--) {
+            const line = document.lineAt(i).text;
+            const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+            if (controllerMatch) {
+                currentController = controllerMatch[1];
+                break; // First controller match is the current one
+            }
         }
 
         const lineText = document.lineAt(position.line).text;
@@ -30,11 +56,12 @@ export class HoverProvider implements vscode.HoverProvider {
                 if (attrName === 'value') {
                     return new vscode.Hover(hidValueMap[word] || 'Unknown value code');
                 }
-                if (attrName === 'button' || attrName === 'buttonhid') {
-                    return new vscode.Hover(buttonMap[word] || 'Unknown button code');
-                }
-                if (attrName === 'mouseaxis') {
-                    return new vscode.Hover(axisMap[word] || 'Unknown axis code');
+                if (attrName === 'button' || attrName === 'buttonhid' || attrName === 'mouseaxis' || attrName === 'hat' || attrName === 'axis') {
+                    // Use controller-specific mapping if available
+                    if (currentController && controllerButtonMaps[currentController]) {
+                        return new vscode.Hover(controllerButtonMaps[currentController][word] || 'Unknown button code for this controller');
+                    }
+                    return new vscode.Hover('Unknown button code (no controller context)');
                 }
             }
         }
@@ -42,4 +69,3 @@ export class HoverProvider implements vscode.HoverProvider {
         return null;
     }
 }
-

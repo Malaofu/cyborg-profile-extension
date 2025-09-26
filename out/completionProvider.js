@@ -40,27 +40,34 @@ class CompletionProvider {
     provideCompletionItems(document, position) {
         const lineText = document.lineAt(position.line).text;
         const items = [];
-        // Helper function to add completion items for a given target and map
+        // Find current controller by scanning upward from current line
+        let currentController = null;
+        for (let i = position.line; i >= 0; i--) {
+            const line = document.lineAt(i).text;
+            const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+            if (controllerMatch) {
+                currentController = controllerMatch[1];
+                break; // First controller match is the current one
+            }
+        }
+        const buttonMap = currentController && valueMaps_1.controllerButtonMaps[currentController]
+            ? valueMaps_1.controllerButtonMaps[currentController]
+            : {};
+        // Helper function to add completion items
         function addCompletionItemsForTarget(target, map) {
-            if (lineText.includes(`${target}=`)) {
+            const prefix = `${target}=`;
+            if (lineText.includes(prefix)) {
                 Object.entries(map).forEach(([code, description]) => {
                     const item = new vscode.CompletionItem(code);
                     item.detail = description;
-                    item.filterText = description;
                     item.insertText = code;
-                    // Set the range to replace the current code for the target
-                    const start = lineText.indexOf(`${target}=`) + target.length + 1;
-                    let end = lineText.indexOf(' ', start);
-                    if (end === -1)
-                        end = lineText.length;
-                    item.range = new vscode.Range(position.line, start, position.line, end);
                     items.push(item);
                 });
             }
         }
-        addCompletionItemsForTarget('button', valueMaps_1.buttonMap);
-        addCompletionItemsForTarget('buttonhid', valueMaps_1.buttonMap);
-        addCompletionItemsForTarget('mouseaxis', valueMaps_1.buttonMap);
+        addCompletionItemsForTarget('button', buttonMap);
+        addCompletionItemsForTarget('buttonhid', buttonMap);
+        addCompletionItemsForTarget('mouseaxis', buttonMap);
         addCompletionItemsForTarget('usage', valueMaps_1.hidUsageMap);
         addCompletionItemsForTarget('page', valueMaps_1.hidPageMap);
         addCompletionItemsForTarget('value', valueMaps_1.hidValueMap);

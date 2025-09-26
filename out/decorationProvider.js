@@ -35,38 +35,54 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateDecorations = updateDecorations;
 const vscode = __importStar(require("vscode"));
-const valueMaps_1 = require("./valueMaps"); // Import your maps
+const valueMaps_1 = require("./valueMaps");
 function updateDecorations(editor, decorationType) {
     const document = editor.document;
     const text = document.getText();
     const decorations = [];
-    // Regular expression to match attribute=0x... patterns
-    const regex = /(\w+)=0x([0-9a-fA-F]+)/g;
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-        const attribute = match[1];
-        const hexCode = `0x${match[2]}`;
-        let readableText = '';
-        if (attribute === 'usage') {
-            readableText = valueMaps_1.hidUsageMap[hexCode] || 'Unknown usage code';
+    // Track controller scopes line by line
+    let currentController = null;
+    const lines = text.split(/\r?\n/);
+    // First pass: set controller context
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        // Set new controller when we see a controller line
+        const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+        if (controllerMatch) {
+            currentController = controllerMatch[1];
         }
-        else if (attribute === 'button' || attribute === 'buttonhid') {
-            readableText = valueMaps_1.buttonMap[hexCode] || 'Unknown button code';
-        }
-        else if (attribute === 'mouseaxis') {
-            readableText = valueMaps_1.axisMap[hexCode] || 'Unknown axis code';
-        }
-        if (readableText) {
-            const startPos = document.positionAt(match.index + match[0].length);
-            const decoration = {
-                range: new vscode.Range(startPos, startPos),
-                renderOptions: {
-                    after: {
-                        contentText: `(${readableText})\t`,
-                    }
+        // Process all matches on this line with current controller context
+        const lineRegex = /(\w+)=0x([0-9a-fA-F]+)/g;
+        let match;
+        while ((match = lineRegex.exec(line)) !== null) {
+            const attribute = match[1];
+            const hexCode = `0x${match[2]}`;
+            let readableText = '';
+            if (attribute === 'usage') {
+                readableText = valueMaps_1.hidUsageMap[hexCode] || 'Unknown usage code';
+            }
+            else if (attribute === 'value') {
+                readableText = valueMaps_1.hidValueMap[hexCode] || 'Unknown value code';
+            }
+            else if (attribute === 'button' || attribute === 'buttonhid' || attribute === 'mouseaxis' || attribute === 'hat' || attribute === 'axis') {
+                if (currentController && valueMaps_1.controllerButtonMaps[currentController]) {
+                    readableText = valueMaps_1.controllerButtonMaps[currentController][hexCode] || 'Unknown button code';
                 }
-            };
-            decorations.push(decoration);
+                else {
+                    readableText = 'Unknown button code';
+                }
+            }
+            if (readableText) {
+                const lineStart = document.positionAt(document.offsetAt(new vscode.Position(i, 0)) + match.index + match[0].length);
+                decorations.push({
+                    range: new vscode.Range(lineStart, lineStart),
+                    renderOptions: {
+                        after: {
+                            contentText: ` (${readableText})`,
+                        }
+                    }
+                });
+            }
         }
     }
     editor.setDecorations(decorationType, decorations);
