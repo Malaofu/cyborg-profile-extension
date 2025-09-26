@@ -254,8 +254,8 @@ export const hidValueMap: Record<string, string> = {
 
 export const controllerButtonMaps: Record<string, Record<string, string>> = {
   '4a484820-55c2-40ac-96c2-fa361656b233': { // MMO7 controller
-    '0x00010030': 'Cursor X Axis',
-    '0x00010031': 'Cursor Y Axis',
+    '0x00010030': 'X Axis',
+    '0x00010031': 'Y Axis',
     '0x00010038': 'Scroll Wheel',
 
     '0x00090001': 'Left Click',
@@ -299,8 +299,8 @@ export const controllerButtonMaps: Record<string, Record<string, string>> = {
     '0xFF0000FC': 'Button 12',
   },
   'c9e4beb7-9967-4ce8-8fbc-02ca04f453d8': { // R.A.T. 5, 7, 9
-    '0x00010030': 'Cursor X Axis',
-    '0x00010031': 'Cursor Y Axis',
+    '0x00010030': 'X Axis',
+    '0x00010031': 'Y Axis',
     '0x00010038': 'Scroll Wheel',
 
     '0x00090001': 'Left Click',
@@ -317,8 +317,8 @@ export const controllerButtonMaps: Record<string, Record<string, string>> = {
     '0x0009000B': 'Mode 3',
   },
   '23e2a81c-5f45-4f0e-bb62-350688d7f883': { // R.A.T. 3
-    '0x00010030': 'Cursor X Axis',
-    '0x00010031': 'Cursor Y Axis',
+    '0x00010030': 'X Axis',
+    '0x00010031': 'Y Axis',
     '0x00010038': 'Scroll Wheel',
 
     '0x00090001': 'Left Click',
@@ -428,5 +428,51 @@ export const controllerButtonMaps: Record<string, Record<string, string>> = {
     '0x0009000C': 'Scroll Up',
     '0x0009000D': 'Scroll Down',
     '0x0009000E': 'Shift',
+  },
+  'd2a9b44d-29f6-4d1e-9ffb-bf1220160bad': { // Mad Catz R.A.T. DWS
+    '0x00010030': 'X Axis',
+    '0x00010031': 'Y Axis',
+    '0x00010038': 'Scroll Wheel',
+
+    '0x00090001': 'Left Click',
+    '0x00090002': 'Right Click',
+    '0x00090003': 'Scroll Button',
+    '0x00090004': 'Back Button',
+    '0x00090005': 'Forward Button',
+
+    '0x00090006': 'Precision Aim',
+    '0x00090007': 'DPI Up',
+    '0x00090008': 'DPI Down',
+
+    '0x00090009': 'Barrel Left',
+    '0x0009000A': 'Barrel Right',
+    '0x0009000B': 'Tile Left',
+    '0x0009000C': 'Tile Right',
+
+    '0x0009000D': 'Mode 1',
+    '0x0009000E': 'Mode 2',
+    '0x0009000F': 'Mode 3',
+  },
+  'd2a9b44d-29f6-4d1e-9ffb-bf1220160bab': { // Mad Catz R.A.T. 8+
+    '0x00010030': 'X Axis',
+    '0x00010031': 'Y Axis',
+    '0x00010038': 'Scroll Wheel',
+
+    '0x00090001': 'Left Click',
+    '0x00090002': 'Right Click',
+    '0x00090003': 'Scroll Button',
+    '0x00090004': 'Back Button',
+    '0x00090005': 'Forward Button',
+
+    '0x00090006': 'Precision Aim',
+    '0x00090007': 'DPI Up',
+    '0x00090008': 'DPI Down',
+
+    '0x00090009': 'Barrel Left',
+    '0x0009000A': 'Barrel Right',
+
+    '0x0009000B': 'Mode 1',
+    '0x0009000C': 'Mode 2',
+    '0x0009000D': 'Mode 3',
   }
 };

@@ -61,9 +61,9 @@ class HoverProvider {
         let currentController = null;
         for (let i = position.line; i >= 0; i--) {
             const line = document.lineAt(i).text;
-            const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+            const controllerMatch = line.match(/\[controller=([A-Fa-f0-9-]+)/);
             if (controllerMatch) {
-                currentController = controllerMatch[1];
+                currentController = controllerMatch[1].toLowerCase();
                 break; // First controller match is the current one
             }
         }

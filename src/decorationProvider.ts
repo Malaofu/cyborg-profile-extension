@@ -21,9 +21,9 @@ export function updateDecorations(editor: vscode.TextEditor, decorationType: vsc
         const line = lines[i];
 
         // Set new controller when we see a controller line
-        const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+        const controllerMatch = line.match(/\[controller=([A-Fa-f0-9-]+)/);
         if (controllerMatch) {
-            currentController = controllerMatch[1];
+            currentController = controllerMatch[1].toLowerCase();
         }
 
         // Process all matches on this line with current controller context

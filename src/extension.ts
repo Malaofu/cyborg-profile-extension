@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(updateDecorationsCommand);
 
-    vscode.languages.registerFoldingRangeProvider('cyborg-profile', {
+    vscode.languages.registerFoldingRangeProvider('cyborg-profile-blasts', {
     provideFoldingRanges(document: vscode.TextDocument): vscode.FoldingRange[] {
         const ranges: vscode.FoldingRange[] = [];
         const lines = document.getText().split(/\r?\n/);

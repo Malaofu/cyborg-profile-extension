@@ -78,7 +78,7 @@ function activate(context) {
         triggerUpdateDecorations();
     });
     context.subscriptions.push(updateDecorationsCommand);
-    vscode.languages.registerFoldingRangeProvider('cyborg-profile', {
+    vscode.languages.registerFoldingRangeProvider('cyborg-profile-blasts', {
         provideFoldingRanges(document) {
             const ranges = [];
             const lines = document.getText().split(/\r?\n/);
