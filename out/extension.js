@@ -78,4 +78,32 @@ function activate(context) {
         triggerUpdateDecorations();
     });
     context.subscriptions.push(updateDecorationsCommand);
+    vscode.languages.registerFoldingRangeProvider('cyborg-profile', {
+        provideFoldingRanges(document) {
+            const ranges = [];
+            const lines = document.getText().split(/\r?\n/);
+            let inBlastSection = false;
+            let blastStartLine = -1;
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                // Check for blast start
+                if (line.includes('[blast=')) {
+                    inBlastSection = true;
+                    blastStartLine = i;
+                }
+                // Check for blast end
+                if (inBlastSection && (line === '>')) {
+                    if (blastStartLine !== -1 && i > blastStartLine + 1) {
+                        var foldingRange = new vscode.FoldingRange(blastStartLine + 1, // Start after blast declaration
+                        i - 1, // End before closing bracket
+                        vscode.FoldingRangeKind.Region);
+                        ranges.push(foldingRange);
+                    }
+                    inBlastSection = false;
+                    blastStartLine = -1;
+                }
+            }
+            return ranges;
+        }
+    });
 }
