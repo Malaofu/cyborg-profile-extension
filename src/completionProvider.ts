@@ -13,9 +13,9 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
         let currentController = null;
         for (let i = position.line; i >= 0; i--) {
             const line = document.lineAt(i).text;
-            const controllerMatch = line.match(/\[controller=([a-f0-9-]+)/);
+            const controllerMatch = line.match(/\[controller=([A-Fa-f0-9-]+)/);
             if (controllerMatch) {
-                currentController = controllerMatch[1];
+                currentController = controllerMatch[1].toLowerCase();
                 break; // First controller match is the current one
             }
         }
@@ -31,6 +31,7 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
                 Object.entries(map).forEach(([code, description]) => {
                     const item = new vscode.CompletionItem(code);
                     item.detail = description;
+                    item.filterText = description + ' ' + code;
                     item.insertText = code;
                     items.push(item);
                 });

@@ -17,11 +17,11 @@
     "sections": {
       "patterns": [
         {
-          "match": "\\[(profile|controllers|controls|shifts|commands|actioncommand|actionblock|buttoncombo|selectionset|assignments|bands)\\b",
+          "match": "\\[(profile|controllers|controls|shifts|commands|actioncommand|actionblock|buttoncombo|selectionset|assignments|bands|blasts)\\b",
           "name": "keyword.control.cyborg"
         },
         {
-          "match": "\\[(controller|member|mousepointer|mouseaxis|button|slider|shift|shiftcommand|action|band|hat|axis)\\b",
+          "match": "\\[(controller|member|mousepointer|mouseaxis|button|slider|shift|shiftcommand|action|band|hat|axis|blast)\\b",
           "name": "keyword.control.cyborg"
         }
       ]
