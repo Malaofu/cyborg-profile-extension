@@ -1,8 +1,13 @@
 {
   "name": "cyborg-profile-extension",
+  "publisher": "Malaofu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Malaofu/cyborg-profile-extension.git"
+  },
   "main": "./out/extension.js",
   "displayName": "Cyborg Profile Extension",
-  "description": "Extension for syntax highlighting of Cyborg Profile files used by the MMO7 mouse",
+  "description": "Extension for syntax highlighting of Cyborg Profile files used by the MMO7 mouse and others",
   "version": "0.0.2",
   "engines": {
     "vscode": "^1.103.0"
