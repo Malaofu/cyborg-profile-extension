@@ -45,21 +45,22 @@ export class HoverProvider implements vscode.HoverProvider {
 
         for (const attribute of attributeMatch) {
             const [attrName, attrValue] = attribute.split('=');
+            const hexValue = parseInt(attrValue, 16);
 
             if (attrValue === word) {
                 if (attrName === 'usage') {
-                    return new vscode.Hover(hidUsageMap[word] || 'Unknown usage code');
+                    return new vscode.Hover(hidUsageMap[hexValue] || 'Unknown usage code');
                 }
                 if (attrName === 'page') {
-                    return new vscode.Hover(hidPageMap[word] || 'Unknown page code');
+                    return new vscode.Hover(hidPageMap[hexValue] || 'Unknown page code');
                 }
                 if (attrName === 'value') {
-                    return new vscode.Hover(hidValueMap[word] || 'Unknown value code');
+                    return new vscode.Hover(hidValueMap[hexValue] || 'Unknown value code');
                 }
                 if (attrName === 'button' || attrName === 'buttonhid' || attrName === 'mouseaxis' || attrName === 'hat' || attrName === 'axis') {
                     // Use controller-specific mapping if available
                     if (currentController && controllerButtonMaps[currentController]) {
-                        return new vscode.Hover(controllerButtonMaps[currentController][word] || 'Unknown button code for this controller');
+                        return new vscode.Hover(controllerButtonMaps[currentController][hexValue] || 'Unknown button code for this controller');
                     }
                     return new vscode.Hover('Unknown button code (no controller context)');
                 }

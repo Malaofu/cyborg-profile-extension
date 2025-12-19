@@ -32,16 +32,16 @@ export function updateDecorations(editor: vscode.TextEditor, decorationType: vsc
 
         while ((match = lineRegex.exec(line)) !== null) {
             const attribute = match[1];
-            const hexCode = `0x${match[2]}`;
+            const hexValue = parseInt(`0x${match[2]}`, 16);
             let readableText = '';
 
             if (attribute === 'usage') {
-                readableText = hidUsageMap[hexCode] || 'Unknown usage code';
+                readableText = hidUsageMap[hexValue] || 'Unknown usage code';
             } else if (attribute === 'value') {
-                readableText = hidValueMap[hexCode] || 'Unknown value code';
+                readableText = hidValueMap[hexValue] || 'Unknown value code';
             } else if (attribute === 'button' || attribute === 'buttonhid' || attribute === 'mouseaxis' || attribute === 'hat' || attribute === 'axis') {
                 if (currentController && controllerButtonMaps[currentController]) {
-                    readableText = controllerButtonMaps[currentController][hexCode] || 'Unknown button code';
+                    readableText = controllerButtonMaps[currentController][hexValue] || 'Unknown button code';
                 } else {
                     readableText = 'Unknown button code';
                 }

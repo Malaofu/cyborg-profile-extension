@@ -1,6 +1,11 @@
 import * as vscode from 'vscode';
 import { controllerButtonMaps, hidPageMap, hidUsageMap, hidValueMap } from './valueMaps';
 
+function numToHex(num: number | string): string {
+    const n = typeof num === 'string' ? parseInt(num, 10) : num;
+    return '0x' + n.toString(16).padStart(8, '0').toUpperCase();
+}
+
 export class CompletionProvider implements vscode.CompletionItemProvider {
     provideCompletionItems(
         document: vscode.TextDocument,
@@ -25,14 +30,15 @@ export class CompletionProvider implements vscode.CompletionItemProvider {
             : {};
 
         // Helper function to add completion items
-        function addCompletionItemsForTarget(target: string, map: Record<string, string>) {
+        function addCompletionItemsForTarget(target: string, map: Record<number | string, string>) {
             const prefix = `${target}=`;
             if (lineText.includes(prefix)) {
                 Object.entries(map).forEach(([code, description]) => {
-                    const item = new vscode.CompletionItem(code);
+                    const hexCode = numToHex(code);
+                    const item = new vscode.CompletionItem(hexCode);
                     item.detail = description;
-                    item.filterText = description + ' ' + code;
-                    item.insertText = code;
+                    item.filterText = description + ' ' + hexCode;
+                    item.insertText = hexCode;
                     items.push(item);
                 });
             }
